@@ -2,7 +2,12 @@
 <head>
 <title>Ariston Nuos Janus2 / 250 EXT SOL 2011 - HMI Protocol Reverse Engineering </title>
 <style>
-td[data] {background-color: yellow;vertical-align:top}
+body {font-family:sans-serif}
+table {border-collapse:collapse}
+td {border:solid 1px black;}
+span[data] {background-color: yellow;font-family:courier}
+td[data] {background-color: yellow;vertical-align:top;font-family:courier}
+td[trans] {background-color: #AAAA00;vertical-align:top;font-family:courier}
 td[len]  {background-color: red;}
 td[ETX]  {background-color: deeppink;}
 td[STX]  {background-color: CornflowerBlue}
@@ -16,7 +21,7 @@ td[unk]  {background-color: magenta;}
 td[b]    {font-weight:bold}
 td[r]    {writing-mode: sideways-lr;}
 table {border:1px}
-table.normal       {font-size:2pt;}
+table.normal1       {font-size:2pt;}
 table.normal:hover {font-size:100%;}
 tr[ppos] td {background-color: LightBlue;}
 tr[pos] td {background-color: LightBlue;}
@@ -26,8 +31,8 @@ tr[pos] td:nth-child(2) {background-color: #FFFFFF;}
 </head>
 <body>
 <table border=1 rules=all>
-<tr><td>Brand<td>Ariston
-<tr><td>Name<td> NUOS 250 EXT SOL
+<tr><td>Brand<td><div style="background-color:red;color:white;width:150px;">&nbsp;&nbsp;<span style="font-size:150%;font-style:bold">&#x2302;</span>&nbsp;&nbsp;Ariston</div>
+<tr><td>Type<td> NUOS 250 EXT SOL
 
 <tr><td>MainBoard<td>Janus 2
 <tr><td>SW Version <td>010204
@@ -35,7 +40,7 @@ tr[pos] td:nth-child(2) {background-color: #FFFFFF;}
 
 <tr><td>Serial Settings HMI2Main<td> 9600 8N1 @5V! Use TTL Converter!)
 <tr><td>Communication<td>Between Mainboard and HMI Board
-<tr><td>Wiring Main2HMI<td> Board to Board Connector, blue wires<br>
+<tr><td>Wiring Main2HMI <br>Mainbaord to HMI Board<td> Board to Board Connector, blue wires<br>
 <table border=1 rules=all>
 <tr><td>    <td>HMI Board<td>Mainboard
 <tr><td>Pin1<td>GND      <td>GND
@@ -46,230 +51,39 @@ tr[pos] td:nth-child(2) {background-color: #FFFFFF;}
 <tr><td>Pin6<td>NC       <td>NC
 </table>
 
-<tr><td>Wiring Main2External<td> 6P6C Connector Serial Port<br>
+<tr><td>Wiring Main2External <br> Official Flash/Test Connector <td> 6P6C RJ-12 Connector Serial Port<br>
 <table border=1 rules=all>
-<tr><td>    <td>Mainboard
-<tr><td>Pin1<td>TXD0 Pin17@Renesas R8C/27
-<tr><td>Pin2<td>RXD0 Pin16@Renesas R8C/27
-<tr><td>Pin3<td>VCC
-<tr><td>Pin4<td>GND
-<tr><td>Pin5<td>MODE Pin8@Renesas R8C/27
-<tr><td>Pin6<td>RESET Pin3@Renesas R8C/27
+<tr><td>    <td>Mainboard<td> Pinning
+<tr><td>Pin1<td>TXD0 <td>Pin17@Renesas R8C/27
+<tr><td>Pin2<td>RXD0 <td>Pin16@Renesas R8C/27
+<tr><td>Pin3<td>VCC <td>
+<tr><td>Pin4<td>GND <td>
+<tr><td>Pin5<td>MODE <td>Pin8@Renesas R8C/27
+<tr><td>Pin6<td>RESET <td>Pin3@Renesas R8C/27
 </table>
 </table>
 <hr>
-<table border=1 rules=all>
-<tr><th colspan=3>Glossar
-<tr><td>NUL<td>Null 0x00
-<tr><td STX>STX &#x2402;<td>Start of Text Character = 0x02
-<tr><td ETX>ETX &#x2403;<td>End of Text Character = 0x03
-<tr><td CR>CR &#x240D;<td> Carriage Return  = 0x0D
-<tr><td len>Len<td> Length
-<tr><td LRC>LRC<td> Longitudinal Redundancy Check
-<tr><td msg>MSGT<td> Message Type
-<tr><td fkt>FKT<td> Function ID
-<tr><td data>DATA<td> Data Payload
-
-<tr ppos><td >POS<td>Byte Position in Transmission
-<tr><td>HMI<td> Human  Machine Interface
-<tr><td>Main2HMI<td>Transmission from Mainboard to HMI Board
-<tr><td>HMI2Main<td>Transmission from HMI Board to Mainboard
-
-</table>
-<table border=1 rules=all>
-<tr><td><td><td><td><td><td><td><td><td><td><td></tr>
-<tr><td colspan=16> Main to HMI </td></tr>
-<tr><td>Main2HMI<td id="Status">Status<td colspan=16>&#x2402; Á0030009003200FE7F00010001 &#x2403; CF &#x240D;</td></tr>
-<tr pos><td><td><td>0<td>1<td><td>234<td>56<td>78<td>9012<td>34<td>5678<td>90<td>12<td>34<td>56<td>7<td>89<td>0
-<tr><td><td><td STX>STX<td msg>0xC1<td><td fkt>003<td nul>00<td len>09<td data>0032<td nul>00<td data>FE7F<td nul>00<td data>01<td data>00<td data>01<td ETX>ETX<td LRC>CF<td CR>CR</tr>Program
-<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td ><td fkt r>0x03=Status<td nul>00<td len r>Length<td data r>Target Temp<td nul>00<td data r>Dome Temp <br> TW3<td nul>00<td data >Status1  
-<table class=main rules=all border=1>
-<tr><td>0x00<td>Boost
-<tr><td>0x01<td>Green
-<tr><td>0x02<td>Voyage
-<tr><td>0x03<td>Auto
-<tr><td>...<td>...
 
 
-</table>
-<td data >Status Symbols
-<table class=main rules=all border=1>
-<tr><th>hex<th><th>Symbol
-<tr><td>0x00<td>OFF<td> 
-<tr><td>0x01<td>ON<td>
-<tr><td>0x03<td>HP<td>Heat Pump Fan 
-<tr><td>0x03<td>HE<td>Heat Element
-<tr><td>...<td>...
-<tr><td>0x??<td>Defrost<th>
-
-</table>
-
-<td data r>Status3<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
-
-<tr><td>Main2HMI<td id="Errors">Error<td colspan=16>&#x2402; Á0040004004A0240 &#x2403; B7 &#x240D;
-<tr pos><td><td><td>0<td>1<td><td>234<td>56<td>78<td>90<td>12<td>34<td>56<td>7<td>89<td>0
-<tr><td><td>     <td STX>STX<td msg>0xC1<td><td fkt>004<td nul>00<td len>04<td nul>00<td data>4A<td data>02<td data>40<td ETX>ETX<td LRC>B7<td CR>CR</tr>
-<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt r>0x04=Error<td nul>00<td len r>Length<td nul>
-
-<td style="" data>
-<table  rules=all>
-<tr><th colspan=3>Errorbits1
-<tr><td  >0x01<td>T_Air sensor short<td>H7
-<tr><td b>0x02<td>T_Air sensor open<td>H7
-<tr><td  >0x04<td>T_Evap sensor short<td>H6
-<tr><td b>0x08<td>T_Evap sensor open<td>H6
-<tr><td  >0x10<td>unknown EB1 0x10<td>
-<tr><td  >0x20<td>unknown EB1 0x20<td>
-<tr><td b>0x40<td>TW3 sensor open<td>H8<td>
-<tr><td  >0x80<td>TW3 sensor short<td>E4,H8
-
-</table>
-
-<td data>
-<table  rules=all>
-<tr><th colspan=3>Errorbits2
-<tr><td  >0x01<td>unknown EB2 0x01<td>
-<tr><td b>0x02<td>Gaspressure Sensor<td>H1
-<tr><td  >0x04<td>unknown EB2 0x04 <td>
-<tr><td  >0x08<td>unknown EB2 0x08 <td>
-<tr><td  >0x10<td>unknown EB2 0x10<td>
-<tr><td  >0x20<td>unknown EB2 0x20<td>
-<tr><td  >0x40<td>unknown EB2 0x40<td>
-<tr><td  >0x80<td>unknown EB2 0x80<td>
-</table>
-
-<td data>
-<table  rules=all>
-<tr><th colspan=3>Errorbits3
-<tr><td  >0x01<td>TW1 Tank Sensor Pin2 short<td>H8
-<tr><td b>0x02<td>TW1 Tank Sensor Pin2 open <td>H8
-<tr><td  >0x04<td>TW2 Tank Sensor Pin4 short<td>H8
-<tr><td b>0x08<td>TW2 Tank Sensor Pin4 open <td>H8
-<tr><td  >0x10<td>unknown EB3 0x10<td>
-<tr><td  >0x20<td>Anode <td>F5
-<tr><td b>0x40<td>Empty Tank <td>F4
-<tr><td  >0x80<td>unknown EB3 0x80<td>
-</table>
-
-
-<td ETX>ETX<td LRC r>LRC<td CR>CR</tr>
-<tr><td>Main2HMI<td id="Settings">Settings<td colspan=16>&#x2402; Á00700010A &#x2403; 8D &#x240D;
-<tr pos><td><td><td>0<td>1<td><td>234<td>56<td>78<td>90<td>1<td>23<td>4
-<tr><td><td>     <td STX>STX<td msg>0xC1<td><td fkt>007<td nul>00<td len>01<td data>0A<td ETX>ETX<td LRC>8D<td CR>CR</tr>
-<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt r>0x04=Error<td nul>00<td len r>Length<td data>
-<table class=normal rules=all>
-<tr><th colspan=3>SettingBits
-<tr><td>AntiBact  <td>0x01
-<tr><td b>GreenMode <td>0x02
-<tr><td>Voyage    <td>0x04
-<tr><td b>Defrost   <td>0x08
-<tr><td>HP_NC     <td>0x10
-</table>
-<td ETX>ETX<td LRC r>LRC<td CR>CR</tr>
-
-<tr><td>Main2HMI<td id="T_Max" >T_Max <td colspan=16>&#x2402; Á00500020041 &#x2403; E0 &#x240D;</td></tr>
-<tr><td>Main2HMI<td id="T_Min" >T_Min <td colspan=16>&#x2402; Á00600020028 &#x2403; E6 &#x240D;</td></tr>
-<tr><td>Main2HMI<td id="TW1"   >TW1   <td colspan=16>&#x2402; Á00A0002FE7F &#x2403; 2F &#x240D;</td></tr>
-<tr><td>Main2HMI<td id="TW2"   >TW2   <td colspan=16>&#x2402; Á00B0002FE7F &#x2403; 30 &#x240D;</td></tr>
-<tr><td>Main2HMI<td id="T_AIR" >T_AIR <td colspan=16>&#x2402; Á00C00022215 &#x2403; F3 &#x240D;</td></tr>
-<tr><td>Main2HMI<td id="T_EVAP">T_EVAP<td colspan=16>&#x2402; Á00D00020024 &#x2403; F0 &#x240D;</td></tr>
-<tr><td>Main2HMI<td id="TW3"   >TW3   <td colspan=16>&#x2402; Á00E0002FF7F &#x2403; 34 &#x240D;</td></tr>
-<tr><td>Main2HMI<td id="T_HP"  >T_HP  <td colspan=16>&#x2402; Á01200020033 &#x2403; DF &#x240D;</td></tr>
-<tr pos><td><td><td>0<td>1<td><td>234<td>56<td>78<td>9012<td>3<td>45<td>6
-<tr><td><td><td STX>STX<td msg>0xC1<td><td fkt>005<td nul>00<td len>02<td data>0041<td ETX>ETX<td LRC>E0<td CR>CR</tr>
-<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt>
+<hr>
 <table class=normal>
-<tr><td>0x05<td>T_Max
-<tr><td>0x06<td>T_Min
-<tr><td>0x0A<td>TW1  
-<tr><td>0x0B<td>TW2  
-<tr><td>0x0C<td>T_AIR 
-<tr><td>0x0D<td>T_EVAP
-<tr><td>0x0E<td>TW3 
-<tr><td>0x12<td>T_HP
-</table>
-<td nul>00<td len r>Length<td data >
-<table border=1 rules=all class=normal>
 <tr><th colspan=2> Temperature Encoding Example
-<tr ppos><td >09<td>12
-<tr><td data>40<td data>33
-<tr><td > Decimal <br>Places? <td > Temperature <br>in °C
-<tr> <td colspan=2>0x33 + 0x40/0xFF = 51.25°C 
-
-</table>
-<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
-
-
-
-<tr><td>Main2HMI<td id="OnOff"> Confirm On/Off <td colspan=16>&#x2402;  Â10010001 &#x2403; 48 &#x240D; </td></tr>
-<tr pos><td><td><td>0<td>1<td>2<td>345<td>67<td>89<td>0<td>12<td>3
-<tr><td><td><td STX>STX<td msg2>0xC2<td len>1<td fkt>001<td nul>00<td data>01<td ETX>ETX<td LRC>E0<td CR>CR</tr>
-<tr class=desc><td><td><td STX r>STX<td msg2 r>MSGT<td len>len?<td fkt>Confirm On/Off<td nul >00<td data >0x00=OFF?<br>0x01=ON?<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
-
-<tr><td>Main2HMI<td> Confirm Setting <td colspan=16>&#x2402; Â1007000A &#x2403; 5E &#x240D; </td></tr>
-<tr pos ><td><td><td>0<td>1<td>2<td>345<td>67<td>89<td>0<td>12<td>3
-<tr><td><td><td STX>STX<td msg2>0xC2<td len>1<td fkt>007<td nul>00<td data>0A<td ETX>ETX<td LRC>5E<td CR>CR</tr>
-<tr class=desc><td><td><td STX r>STX<td msg2 r>MSGT<td len>len?<td fkt>Confirm Setting<td nul>00<td data >See 0x07<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
-
-
-<tr><td>Main2HMI<td> Confirm Temp <td colspan=16>&#x2402; Â2005000042 &#x2403; B2&#x240D; </td></tr>
-<tr><td>Main2HMI<td> Confirm Temp <td colspan=16>&#x2402; Â2006000028 &#x2403; B7&#x240D; </td></tr>
-<tr pos><td><td><td>0<td>1<td>2<td>345<td>67<td>8901<td>2<td>34<td>5
-<tr><td><td><td STX>STX<td msg2>0xC2<td len>2<td fkt>005<td nul>00<td data>0042<td ETX>ETX<td LRC>B2<td CR>CR</tr>
-<tr class=desc><td><td><td STX r>STX<td msg2 r>MSGT<td len>len?<td fkt>Confirm Temperature Setting 
-<table class=normal>
-<tr><td>0x05<td>T_Max
-<tr><td>0x06<td>T_Min
-<tr><td>0x0A<td>TW1  
-<tr><td>0x0B<td>TW2  
-<tr><td>0x0C<td>T_AIR 
-<tr><td>0x0D<td>T_EVAP
-<tr><td>0x0E<td>TW3 
-<tr><td>0x12<td>T_HP
-</table>
-<td nul>00<td data >See Temperatures<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
-
-<tr><td>Main2HMI<td id="RESET">RESET  <td colspan=16>&#x2402; Â10090001 &#x2403; 50 &#x240D;
-<tr pos><td><td><td>0<td>1<td>2<td>345<td>67<td>89<td>0<td>12<td>3
-<tr><td><td><td STX>STX<td msg2>0xC2<td len>1<td fkt>009<td nul>00<td data>01<td ETX>ETX<td LRC>7E<td CR>CR</tr>
-<tr class=desc><td><td><td STX r>STX<td msg2 r>MSGT<td len>len?<td fkt>0x09=RESET_ALL<td nul>00<td data>Data<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
-
-
-
-
-<tr><td>Main2HMI<td id="SW_MB">SW Version<br>Mainboard<td colspan=16>&#x2402; Á0080003010204 &#x2403; 46&#x240D;</td></tr>
-<tr pos ><td><td><td>0<td>1<td><td>234<td>56<td>78<td>901234<td>5<td>67<td>8
-<tr><td><td><td STX>STX<td msg>0xC1<td><td fkt>008<td nul>00<td len>03<td data>010204<td ETX>ETX<td LRC>E0<td CR>CR</tr>
-<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt>Fkt<td nul>00<td len r>Length<td data >Version =<br>"010204"<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
-
-<tr><td>Main2HMI<td id="HP_h">HP_h  <td colspan=16>&#x2402; Á0100004755B0000 &#x2403; BC &#x240D;
-<tr><td>Main2HMI<td id="HE_h">HE_h  <td colspan=16>&#x2402; Á0110004631A0000 &#x2403; B5 &#x240D;
-<tr pos><td><td><td>0<td>1<td><td>234<td>56<td>78<td>90123456<td>7<td>89<td>0
-<tr><td><td><td STX>STX<td msg>0xC1<td><td fkt>010<td nul>00<td len>04<td data>755B0000<td ETX>ETX<td LRC>BC<td CR>CR</tr>
-<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt><table class="normal"><tr><td>0x10<td>HP_h<tr><td>0x11<td>HE_h</table><td nul><td len r>Length<td data >0x00005B75<br>/60min<br>= 390 hours<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
-
-<tr><td>Main2HMI<td id="Time_W">Time_W  <td colspan=16>&#x2402; Á014000108 &#x2403; 82 &#x240D;
-<tr pos><td><td><td>0<td>1<td><td>234<td>56<td>78<td>90<td>1<td>23<td>4
-<tr><td><td><td STX>STX<td msg>0xC1<td><td fkt>014<td nul>00<td len>01<td data>08<td ETX>ETX<td LRC>82<td CR>CR</tr>
-<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt>0x14=Time_W<td nul>00<td len r>Length<td data >Time in h<br>8 hours<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
-
-<tr><td>Main2HMI<td id="RESET">RESET  <td colspan=16>&#x2402; Á009000100 &#x2403; 7E &#x240D;
-<tr pos><td><td><td>0<td>1<td><td>234<td>56<td>78<td>90<td>1<td>23<td>4
-<tr><td><td><td STX>STX<td msg>0xC1<td><td fkt>009<td nul>00<td len>01<td data>00<td ETX>ETX<td LRC>7E<td CR>CR</tr>
-<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt>0x09=RESET_ALL<td nul><td len r>Length<td data >?<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
-
-<tr><td>HMI 2 Main<td id="Settings">Get Settings  <td colspan=16>0xff 0xff 0xff 0xff 0xff 0xff 0xff &#x2402; 0xC1 0070001 &#x2403; 1C &#x240D;
-<tr pos><td><td><td>0<td>1<td><td>234<td>56<td>78<td>9<td>01<td>2
-<tr><td><td><td STX>STX<td msg>0xC1<td><td fkt>007<td nul>00<td len>01<td ETX>ETX<td LRC>1C<td CR>CR</tr>
-<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt>0x07=Settings<td nul><td len r>Length<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
-
-
-
-
-
+<tr ppos><td>Byte Position <br>in transmission<td >&#x24EA;&#x2460;<td>&#x2461;&#x2462;
+<tr><td>Example<br>Data ASCII<td data>40<td data>33
+<tr><td><td > Decimal <br>Places in 1/255 °C<td > Temperature <br>in °C
+<tr><td> <td colspan=2>0x33 + 0x40/0xFF = 51.25°C <br>51°C + 0.2509 °C = 51.25°C
+<tr><td>Errors <td colspan=2>FE7F=Sensor not connected
 
 </table>
 <hr>
+<table rules=all border=1>
+<tr><th colspan=15> LRC Checksum - Logitudinal Redundancy Check</tr>
+<tr><td colspan=15>1 byte sum over all transmitted bytes after STX (including ETX)
+<tr><td>Example ASCII<td data>&#x2402;<td data>Á<td data>0<td data>0<td data>7<td data>0<td data>0<td data>0<td data>1<td data>1<td data>A<td data>&#x2403;<td data>8<td data>E
+<tr><td>HEX<td><td>C1<td>30<td>30<td>37<td>30<td>30<td>30<td>31<td>31<td>41<td>03<td >38<td>45
+<tr><td>Sum 1Byte<td><td colspan=11>0xC1+0x30+0x30+0x37+0x30+0x30+0x30+0x31+0x31+0x41+0x03=0x028E <br> 0x028E AND 0xFF = 0x8E <th colspan=2>8E
+
+</table>
 
 <hr>
 <table border=1 rules=all>
@@ -297,13 +111,263 @@ tr[pos] td:nth-child(2) {background-color: #FFFFFF;}
 <tr><td><a href="#Time_W"  >Time_W    </a><td>0x14 <td>on menu action
 </table>
 <hr>
-<table rules=all border=1>
-<tr><th colspan=15> LRC Checksum - Logitudinal Redundancy Check</tr>
-<tr><td colspan=15>1 byte sum over all transmitted bytes after STX (including ETX)
-<tr><td>Example<td>&#x2402;<td>Á<td>0<td>0<td>7<td>0<td>0<td>0<td>1<td>1<td>A<td>ETX<td>8<td>E
-<tr><td>HEX<td><td>C1<td>30<td>30<td>37<td>30<td>30<td>30<td>31<td>31<td>41<td>03<th colspan=2>8E
-<tr><td>Sum 1Byte<td><td colspan=11>0xC1+0x30+0x30+0x37+0x30+0x30+0x30+0x31+0x31+0x41+0x03=0x28E <br> 0x28E AND 0xFF = 0x8E <th colspan=2>8E
+<table border=1 rules=all>
+<tr><th colspan=3>Glossar
+
+<tr><td>NUL<td>Null 0x00
+<tr><td trans>DATA<td>Transmisson Example
+<tr><td STX>STX &#x2402;<td>Start of Text Character = 0x02
+<tr><td ETX>ETX &#x2403;<td>End of Text Character = 0x03
+<tr><td CR>CR &#x240D;<td> Carriage Return  = 0x0D
+<tr><td len>Len<td> Length
+<tr><td nul>NULL<td> NULL/Padding or <b>Unknown</b> Byte Usage
+<tr><td LRC>LRC<td> Longitudinal Redundancy Check
+<tr><td msg>MSGT<td> Message Type
+<tr><td fkt>FKT<td> Function ID
+<tr><td data>DATA<td> Data Payload
+
+<tr ppos><td >POS<td>Byte Position in Transmission
+<tr><td>HMI<td> Human  Machine Interface
+<tr><td>Main2HMI<td>Transmission from Mainboard to HMI Board
+<tr><td>HMI2Main<td>Transmission from HMI Board to Mainboard
 
 </table>
+<hr>
+Reverse Engineering by Guessing/Testing
+
+<table border=1 rules=all>
+
+<tr><th>Direction<th>Function<th colspan="16">Transmission Example
+<tr><td>Main2HMI<td id="Status">Status<td colspan="16" trans>&#x2402; Á0030009003200FE7F00010001 &#x2403; CF &#x240D;</td></tr>
+<tr pos><td><td><td>&#x24EA;<td>&#x2460;<td><td>&#x2461;&#x2462;&#x2463;<td>&#x2464;&#x2465;<td>&#x2466;&#x2467;<td>&#x2468;&#x2469;&#x246A;&#x246B;<td>&#x246C;&#x246D;<td>&#x246E;&#x246F;&#x2470;&#x2471;<td>&#x2472;&#x2473;<td>&#x2460;&#x2461;<td>&#x2462;&#x2463;<td>&#x2464;&#x2465;<td>&#x2466;<td>&#x2467;&#x2468;<td>&#x2469;
+<tr><td><td><td STX>0x02<td msg>0xC1<td><td fkt>003<td nul>00<td len>09<td data>0032<td nul>00<td data>FE7F<td data>00<td data>01<td data>00<td data>01<td ETX>0x03<td LRC>CF<td CR>CR</tr>
+
+<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td ><td fkt r>003=Status<td nul>00<td len r>Length<td data >Target Temp <br>50.00°C<td nul>00<td data >Dome Temp <br> TW3 <br>FE7F=Sensor Not Connected
+<td data>00
+Status1 ???
+<table class=main rules=all border=1>
+<tr><th>Hex<th>Status1
+<tr><td><b>0x00</b><td>??
+<tr><td><b>0x01</b><td>??
+<tr><td>...<td>...
+</table>
+
+<td data >
+Status2 
+<table class=main rules=all border=1>
+<tr><th>Hex<th>Program
+<tr><td>0x00<td>Boost
+<tr><td>0x01<td>Green
+<tr><td>0x02<td>Voyage
+<tr><td>0x03<td>Auto
+<tr><td>...<td>...
+
+
+</table>
+<td data >Status3 Mode
+<table class=main rules=all border=1>
+<tr><th>Hex<th><th>Symbol
+<tr><td>0x00<td>OFF<td> 
+<tr><td>0x01<td>ON<td>
+<tr><td>0x02<td>HP<td>Heat Pump Fan 
+<tr><td>0x04<td>HE<td>Heat Element
+<tr><td>0x08<td><td>
+<tr><td>...<td>...
+<tr><td>0x??<td>Defrost<th>
+
+</table>
+
+<td data>Status4
+
+<table class=main rules=all border=1>
+<tr><th>Hex<th>Status4
+<tr><td><b>0x00</b><td>??
+<tr><td>0x01<td>??
+<tr><td>0x02<td>??
+<tr><td><b>0x03</b><td>??
+<tr><td>...<td>...
+</table>
+
+<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
+
+<tr><td>Main2HMI<td id="Errors">Error<td colspan="16" trans>&#x2402; Á0040004004A0240 &#x2403; B7 &#x240D;
+<tr pos><td><td><td>&#x24EA;<td>&#x2460;<td><td>&#x2461;&#x2462;&#x2463;<td>&#x2464;&#x2465;<td>&#x2466;&#x2467;<td>&#x2468;&#x2469;<td>&#x246A;&#x246B;<td>&#x246C;&#x246D;<td>&#x246E;&#x246F;<td>&#x2470;<td>&#x2471;&#x2472;<td>&#x2473;
+<tr><td><td>     <td STX>0x02<td msg>0xC1<td><td fkt>004<td nul>00<td len>04<td nul>00<td data>4A<td data>02<td data>40<td ETX>0x03<td LRC>B7<td CR>CR</tr>
+<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt r>004=Error<td nul>00<td len r>Length<td nul>
+
+<td style="" data>
+<table  rules=all>
+<tr><th colspan=3>Errorbits1
+<tr><th>Bit<th>Desc.<th>Device Error
+<tr><td  >0x01<td>T_Air sensor short<td>H7
+<tr><td b>0x02<td>T_Air sensor open<td>H7
+<tr><td  >0x04<td>T_Evap sensor short<td>H6
+<tr><td b>0x08<td>T_Evap sensor open<td>H6
+<tr><td  >0x10<td>unknown EB1 0x10<td>
+<tr><td  >0x20<td>unknown EB1 0x20<td>
+<tr><td b>0x40<td>TW3 sensor open<td>H8
+<tr><td  >0x80<td>TW3 sensor short<td>E4,H8
+
+</table>
+
+<td data>
+<table  rules=all>
+<tr><th colspan=3>Errorbits2
+<tr><th>Bit<th>Desc.<th>Device Error
+<tr><td  >0x01<td>unknown<td>
+<tr><td b>0x02<td>Gaspressure Sensor<td>H1
+<tr><td  >0x04<td>unknown<td>
+<tr><td  >0x08<td>unknown<td>
+<tr><td  >0x10<td>unknown<td>
+<tr><td  >0x20<td>unknown<td>
+<tr><td  >0x40<td>unknown<td>
+<tr><td  >0x80<td>unknown<td>
+</table>
+
+<td data>
+<table  rules=all>
+<tr><th colspan=3>Errorbits3
+<tr><th>Bit<th>Desc.<th>Device Error
+<tr><td  >0x01<td>TW1 Tank Sensor Pin2 short<td>H8
+<tr><td b>0x02<td>TW1 Tank Sensor Pin2 open <td>H8
+<tr><td  >0x04<td>TW2 Tank Sensor Pin4 short<td>H8
+<tr><td b>0x08<td>TW2 Tank Sensor Pin4 open <td>H8
+<tr><td  >0x10<td>unknown<td>
+<tr><td  >0x20<td>Anode <td>F5
+<tr><td b>0x40<td>Empty Tank <td>F4
+<tr><td  >0x80<td>unknown<td>
+</table>
+
+
+<td ETX>ETX<td LRC r>LRC<td CR>CR</tr>
+<tr><td>Main2HMI<td id="Settings">Settings<td colspan="16" trans>&#x2402; Á00700010A &#x2403; 8D &#x240D;
+<tr pos><td><td><td>&#x24EA;<td>&#x2460;<td><td>&#x2461;&#x2462;&#x2463;<td>&#x2464;&#x2465;<td>&#x2466;&#x2467;<td>&#x2468;&#x2469;<td>&#x246A;<td>&#x246B;&#x246C;<td>&#x246D;
+<tr><td><td>     <td STX>0x02<td msg>0xC1<td><td fkt>007<td nul>00<td len>01<td data>0A<td ETX>0x03<td LRC>8D<td CR>CR</tr>
+<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt r>007=Settings<td nul>00<td len r>Length<td data>
+<table class=normal rules=all>
+<tr><th colspan=3>SettingBits
+<tr><td>AntiBact  <td>0x01
+<tr><td b>GreenMode <td>0x02
+<tr><td>Voyage    <td>0x04
+<tr><td b>Defrost   <td>0x08
+<tr><td>HP_NC     <td>0x10
+<tr><td>Unknown   <td>0x20
+<tr><td>Unknown   <td>0x40
+<tr><td>Unknown   <td>0x80
+</table>
+<td ETX>ETX<td LRC r>LRC<td CR>CR</tr>
+
+<tr><td>Main2HMI<td id="T_Max" >Temperature T_Max <td colspan="16" trans>&#x2402; Á00500020041 &#x2403; E0 &#x240D;</td></tr>
+<tr><td>Main2HMI<td id="T_Min" >Temperature T_Min <td colspan="16" trans>&#x2402; Á00600020028 &#x2403; E6 &#x240D;</td></tr>
+<tr><td>Main2HMI<td id="TW1"   >Temperature TW1   <td colspan="16" trans>&#x2402; Á00A0002FE7F &#x2403; 2F &#x240D;</td></tr>
+<tr><td>Main2HMI<td id="TW2"   >Temperature TW2   <td colspan="16" trans>&#x2402; Á00B0002FE7F &#x2403; 30 &#x240D;</td></tr>
+<tr><td>Main2HMI<td id="T_AIR" >Temperature T_AIR <td colspan="16" trans>&#x2402; Á00C00022215 &#x2403; F3 &#x240D;</td></tr>
+<tr><td>Main2HMI<td id="T_EVAP">Temperature T_EVAP<td colspan="16" trans>&#x2402; Á00D00020024 &#x2403; F0 &#x240D;</td></tr>
+<tr><td>Main2HMI<td id="TW3"   >Temperature TW3   <td colspan="16" trans>&#x2402; Á00E0002FF7F &#x2403; 34 &#x240D;</td></tr>
+<tr><td>Main2HMI<td id="T_HP"  >Temperature T_HP  <td colspan="16" trans>&#x2402; Á01200020033 &#x2403; DF &#x240D;</td></tr>
+<tr pos><td><td><td>&#x24EA;<td>&#x2460;<td><td>&#x2461;&#x2462;&#x2463;<td>&#x2464;&#x2465;<td>&#x2466;&#x2467;<td>&#x2468;&#x2469;&#x246A;&#x246B;<td>&#x246C;<td>&#x246D;&#x246E;<td>&#x246F;
+<tr><td><td><td STX>0x02<td msg>0xC1<td><td fkt>005<td nul>00<td len>02<td data>0041<td ETX>0x03<td LRC>E0<td CR>CR</tr>
+<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt>
+<table class=normal>
+<th colspan=2>Temperature</th>
+<tr><td>005<td>T_Max
+<tr><td>006<td>T_Min
+<tr><td>00A<td>TW1  
+<tr><td>00B<td>TW2  
+<tr><td>00C<td>T_AIR 
+<tr><td>00D<td>T_EVAP
+<tr><td>00E<td>TW3 
+<tr><td>012<td>T_HP
+</table>
+<td nul>00<td len r>Length<td data >
+<table class=normal>
+<tr><th colspan=2> Temperature Encoding Example
+<tr ppos><td >09<td>12
+<tr><td data>40<td data>33
+<tr><td > Decimal <br>Places? <td > Temperature <br>in °C
+<tr> <td colspan=2>0x33 + 0x40/0xFF = 51.25°C 
+
+</table>
+<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
+
+
+
+<tr><td>Main2HMI<td id="OnOff"> Confirm On/Off <td colspan="16" trans>&#x2402;  Â10010001 &#x2403; 48 &#x240D; </td></tr>
+<tr pos><td><td><td>&#x24EA;<td>&#x2460;<td>&#x2461;<td>&#x2462;&#x2463;&#x2464;<td>&#x2465;&#x2466;<td>&#x2467;&#x2468;<td>&#x2469;<td>&#x246A;&#x246B;<td>&#x246C;
+<tr><td><td><td STX>0x02<td msg2>0xC2<td len>1<td fkt>001<td nul>00<td data>01<td ETX>0x03<td LRC>48<td CR>CR</tr>
+<tr class=desc><td><td><td STX r>STX<td msg2 r>MSGT<td len>len?<td fkt>Confirm On/Off<td nul >00<td data >0x00=OFF?<br>0x01=ON?<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
+
+<tr><td>Main2HMI<td> Confirm Setting <td colspan="16" trans>&#x2402; Â1007000A &#x2403; 5E &#x240D; </td></tr>
+<tr pos><td><td><td>&#x24EA;<td>&#x2460;<td>&#x2461;<td>&#x2462;&#x2463;&#x2464;<td>&#x2465;&#x2466;<td>&#x2467;&#x2468;<td>&#x2469;<td>&#x246A;&#x246B;<td>&#x246C;
+<tr><td><td><td STX>0x02<td msg2>0xC2<td len>1<td fkt>007<td nul>00<td data>0A<td ETX>0x03<td LRC>5E<td CR>CR</tr>
+<tr class=desc><td><td><td STX r>STX<td msg2 r>MSGT<td len>len?<td fkt>Confirm Setting<td nul>00<td data >See <a href="#Settings">SETTINGS</a><td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
+
+
+<tr><td>Main2HMI<td> Confirm Temp <td colspan="16" trans>&#x2402; Â2005000042 &#x2403; B2&#x240D; </td></tr>
+<tr><td>Main2HMI<td> Confirm Temp <td colspan="16" trans>&#x2402; Â2006000028 &#x2403; B7&#x240D; </td></tr>
+<tr pos><td><td><td>&#x24EA;<td>&#x2460;<td>&#x2461;<td>&#x2462;&#x2463;&#x2464;<td>&#x2465;&#x2466;<td>&#x2467;&#x2468;&#x2469;&#x246A;<td>&#x246B;<td>&#x246C;&#x246D;<td>&#x246E;
+<tr><td><td><td STX>0x02<td msg2>0xC2<td len>2<td fkt>005<td nul>00<td data>0042<td ETX>0x03<td LRC>B2<td CR>CR</tr>
+<tr class=desc><td><td><td STX r>STX<td msg2 r>MSGT<td len>len?<td fkt>Confirm Temperature Setting 
+<table class=normal>
+<tr><td>005<td>T_Max
+<tr><td>006<td>T_Min
+<tr><td>00A<td>TW1  
+<tr><td>00B<td>TW2  
+<tr><td>00C<td>T_AIR 
+<tr><td>00D<td>T_EVAP
+<tr><td>00E<td>TW3 
+<tr><td>012<td>T_HP
+</table>
+<td nul>00<td data >See Temperatures<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
+
+<tr><td>Main2HMI<td id="RESET">RESET  <td colspan="16" trans>&#x2402; Â10090001 &#x2403; 50 &#x240D;
+<tr pos><td><td><td>&#x24EA;<td>&#x2460;<td>&#x2461;<td>&#x2462;&#x2463;&#x2464;<td>&#x2465;&#x2466;<td>&#x2467;&#x2468;<td>&#x2469;<td>&#x246A;&#x246B;<td>&#x246C;
+<tr><td><td><td STX>0x02<td msg2>0xC2<td len>1<td fkt>009<td nul>00<td data>01<td ETX>0x03<td LRC>7E<td CR>CR</tr>
+<tr class=desc><td><td><td STX r>STX<td msg2 r>MSGT<td len>len?<td fkt>009=RESET_ALL<td nul>00<td data>Data<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
+
+
+
+
+<tr><td>Main2HMI<td id="SW_MB">SW Version<br>Mainboard<td colspan="16" trans>&#x2402; Á0080003010204 &#x2403; 46&#x240D;</td></tr>
+<tr pos><td><td><td>&#x24EA;<td>&#x2460;<td><td>&#x2461;&#x2462;&#x2463;<td>&#x2464;&#x2465;<td>&#x2466;&#x2467;<td>&#x2468;&#x2469;&#x246A;&#x246B;&#x246C;&#x246D;<td>&#x246E;<td>&#x246F;&#x2470;<td>&#x2471;
+<tr><td><td><td STX>0x02<td msg>0xC1<td><td fkt>008<td nul>00<td len>03<td data>010204<td ETX>0x03<td LRC>46<td CR>CR</tr>
+<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt>008=Version<td nul>00<td len r>Length<td data >Version =<br>"010204"<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
+
+<tr><td>Main2HMI<td id="HP_h">HP_h  <td colspan="16" trans>&#x2402; Á0100004755B0000 &#x2403; BC &#x240D;
+<tr><td>Main2HMI<td id="HE_h">HE_h  <td colspan="16" trans>&#x2402; Á0110004631A0000 &#x2403; B5 &#x240D;
+<tr pos><td><td><td>&#x24EA;<td>&#x2460;<td><td>&#x2461;&#x2462;&#x2463;<td>&#x2464;&#x2465;<td>&#x2466;&#x2467;<td>&#x2468;&#x2469;&#x246A;&#x246B;&#x246C;&#x246D;&#x246E;&#x246F;<td>&#x2470;<td>&#x2471;&#x2472;<td>&#x2473;
+
+<tr><td><td><td STX>0x02<td msg>0xC1<td><td fkt>010<td nul>00<td len>04<td data>755B0000<td ETX>0x03<td LRC>BC<td CR>CR</tr>
+<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt>
+<table class="normal">
+<tr><td>010<td>HP_h
+<tr><td>011<td>HE_h
+</table>
+<td nul><td len r>Length<td data >0x00005B75<br>/60min<br>= 390 hours<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
+
+<tr><td>Main2HMI<td id="Time_W">Time_W  <td colspan="16" trans>&#x2402; Á014000108 &#x2403; 82 &#x240D;
+<tr pos><td><td><td>&#x24EA;<td>&#x2460;<td><td>&#x2461;&#x2462;&#x2463;<td>&#x2464;&#x2465;<td>&#x2466;&#x2467;<td>&#x2468;&#x2469;<td>&#x246A;<td>&#x246B;&#x246C;<td>&#x246D;
+<tr><td><td><td STX>0x02<td msg>0xC1<td><td fkt>014<td nul>00<td len>01<td data>08<td ETX>0x03<td LRC>82<td CR>CR</tr>
+<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt>014=Time_W<td nul>00<td len r>Length<td data >Time in h<br>8 hours<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
+
+<tr><td>Main2HMI<td id="RESET">RESET  <td colspan="16" trans>&#x2402; Á009000100 &#x2403; 7E &#x240D;
+<tr pos><td><td><td>&#x24EA;<td>&#x2460;<td><td>&#x2461;&#x2462;&#x2463;<td>&#x2464;&#x2465;<td>&#x2466;&#x2467;<td>&#x2468;&#x2469;<td>&#x246A;<td>&#x246B;&#x246C;<td>&#x246D;
+<tr><td><td><td STX>0x02<td msg>0xC1<td><td fkt>009<td nul>00<td len>01<td data>00<td ETX>0x03<td LRC>7E<td CR>CR</tr>
+<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt>009=RESET_ALL<td nul><td len r>Length<td data >?<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
+
+<tr><td style="color:red">HMI2Main<td id="Settings">Get Settings  <td colspan="16" trans>0xff 0xff 0xff 0xff 0xff 0xff 0xff &#x2402; 0xC1 0070001 &#x2403; 1C &#x240D;
+<tr pos><td><td><td>&#x24EA;<td>&#x2460;<td><td>&#x2461;&#x2462;&#x2463;<td>&#x2464;&#x2465;<td>&#x2466;&#x2467;<td>&#x2468;<td>&#x2469;&#x246A;<td>&#x246B;
+<tr><td><td><td STX>0x02<td msg>0xC1<td><td fkt>007<td nul>00<td>01<td ETX>0x03<td LRC>1C<td CR>CR</tr>
+<tr class=desc><td><td><td STX r>STX<td msg r>MSGT<td><td fkt>007=Settings<td nul><td >Length??<td ETX r>ETX<td LRC r>LRC<td CR r>CR</tr>
+
+
+
+
+
+
+</table>
+<hr>
+
+
 </body>
 </html>
