@@ -1,4 +1,4 @@
-# Nuos Aristion Nuos Ariston Nuos 250 Ext Sol / "Janus 2"
+# Ariston Nuos 250 Ext Sol / "Janus 2"
 
 Reverse Engineering Results of  a
 Warmwater Heatpump 
