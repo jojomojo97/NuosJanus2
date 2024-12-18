@@ -17,8 +17,12 @@ The Nuos Primo Models seem to have a `Janus Entry` PCB
 
 Plase make an PullRequest or Ticket  to correct Errors or if you want to contribute knowledge.
 If you want to enhance the Schematics, KiCad Files can be provided.
+### This  Repo
+[HMI Board <-> MainBoard Communication](https://jojomojo97.github.io/NuosJanus2/Communication/AristonNuosJanus2_Messages.html)
 
-## Links
+[Rough Overview PCB Schematics](https://github.com/jojomojo97/NuosJanus2/tree/main/Schematics)
+
+## External Links
 
 ### Partlist & exploded view
 
