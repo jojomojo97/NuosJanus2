@@ -137,3 +137,19 @@ If you want to enhance the Schematics, KiCad Files can be provided.
 * 60001830-01
 * 60001830-02 
 * 60001830-03
+
+### Ariston Serial Numbers
+
+|Length_Characters|Example________________________| ProductReference|Date1    |Date2/3         |Sequencial Number |ProductReference|Date|
+|----------------|-------------------------|-----------------|--------|-----------------|------------------|----------------|----------------|
+|9 Characters    |07 91 00301              |                 |07 Month|91 Year          |00301    |                  | 01-77 till 12-92|
+|10 Characters   |95 01 065004             |                 |95 Year |01 Month         ||065004  |                  | 01-93 till 06-95|
+|10 Characters   |01 95 065004             |                 |01 Month|95 Year          |065004   |                  | from 07-95      |
+|12 Characters   |924 2 3 134 0115         |924              | 3 Year | 134 Day         |0115     |                  |
+|15/16 Characters|(0)03 070 0001 893077    |                 |003 Year|070 Day          |0001     |893077            | 01-97 till 01-05|
+|16 Characters   |05 070 0001 0000000      |                 |08 Year |070 Day          |0001     |0000000           | from 05-05      |
+|17 Characters   |07 070 00315 3070107     |                 |07 Year |070 Day          |00315    |3070107           |                 |
+|21 Characters   |3000115 XX 08115 0000001 |300115           |08 Year |115 Day          |0000001  |                  |                 |
+|22 Characters   |3000115 XX 070416 0000001|300115           |07 Year | 04 Month 16 Day |0000001  |                  |                 |
+
+  
